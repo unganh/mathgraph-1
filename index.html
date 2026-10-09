@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MathGraph - công cụ vẽ đồ thị hàm số trực tuyến miễn phí.">
+  <title>MathGraph — Vẽ đồ thị hàm số</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/mathjs@13.2.0/lib/browser/math.min.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="MathGraph trang chủ"><span class="brand-mark">ƒ</span> MathGraph</a>
+    <span class="top-note">Công cụ vẽ đồ thị hàm số</span>
+  </header>
+
+  <main class="layout">
+    <section class="intro">
+      <p class="eyebrow">MATH • GRAPH • EXPLORE</p>
+      <h1>Khám phá hàm số<br><span>bằng đồ thị trực quan.</span></h1>
+      <p class="subheading">Nhập hàm số, quan sát đường cong và khám phá mối quan hệ giữa x và y ngay trên trình duyệt.</p>
+    </section>
+
+    <section class="workspace">
+      <aside class="panel controls">
+        <div class="panel-heading">
+          <div><p class="eyebrow">THIẾT LẬP</p><h2>Hàm số của bạn</h2></div>
+          <span class="live-dot" title="Sẵn sàng"></span>
+        </div>
+
+        <form id="graph-form">
+          <label for="function-input">Hàm số <span class="muted">(biến x)</span></label>
+          <div class="function-field">
+            <span>y =</span>
+            <input id="function-input" name="function" value="x^2" autocomplete="off" spellcheck="false" aria-describedby="function-help">
+          </div>
+          <p id="function-help" class="help">Ví dụ: x^2, sin(x), 2*x + 1, sqrt(abs(x))</p>
+          <button class="primary-btn" type="submit">Vẽ đồ thị <span aria-hidden="true">↗</span></button>
+        </form>
+
+        <div class="divider"></div>
+        <div class="section-title"><h3>Hàm mẫu</h3><span class="muted">Chọn để thử</span></div>
+        <div class="presets">
+          <button type="button" class="preset active" data-fn="x^2"><span class="preset-icon">x²</span><span><b>Bậc hai</b><small>y = x²</small></span></button>
+          <button type="button" class="preset" data-fn="sin(x)"><span class="preset-icon">∿</span><span><b>Lượng giác</b><small>y = sin(x)</small></span></button>
+          <button type="button" class="preset" data-fn="2*x + 1"><span class="preset-icon">↗</span><span><b>Bậc nhất</b><small>y = 2x + 1</small></span></button>
+          <button type="button" class="preset" data-fn="sqrt(abs(x))"><span class="preset-icon">√</span><span><b>Căn thức</b><small>y = √|x|</small></span></button>
+          <button type="button" class="preset" data-fn="cos(x)"><span class="preset-icon">∿</span><span><b>Cosine</b><small>y = cos(x)</small></span></button>
+          <button type="button" class="preset" data-fn="1/x"><span class="preset-icon">⅟x</span><span><b>Nghịch đảo</b><small>y = 1/x</small></span></button>
+        </div>
+
+        <div class="divider"></div>
+        <div class="section-title"><h3>Khoảng hiển thị</h3><button id="reset-view" class="text-btn" type="button">Đặt lại</button></div>
+        <div class="range-grid">
+          <label for="xmin">X nhỏ nhất<input id="xmin" type="number" value="-10" step="1"></label>
+          <label for="xmax">X lớn nhất<input id="xmax" type="number" value="10" step="1"></label>
+          <label for="ymin">Y nhỏ nhất<input id="ymin" type="number" value="-10" step="1"></label>
+          <label for="ymax">Y lớn nhất<input id="ymax" type="number" value="10" step="1"></label>
+        </div>
+        <button id="apply-range" class="secondary-btn" type="button">Cập nhật khung nhìn</button>
+      </aside>
+
+      <section class="panel graph-panel">
+        <div class="graph-header">
+          <div><p class="eyebrow">BẢN VẼ TRỰC QUAN</p><h2 id="graph-title">y = x²</h2></div>
+          <div class="graph-actions">
+            <button id="zoom-out" class="icon-btn" type="button" aria-label="Thu nhỏ" title="Thu nhỏ">−</button>
+            <button id="zoom-in" class="icon-btn" type="button" aria-label="Phóng to" title="Phóng to">+</button>
+          </div>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="graph-canvas" aria-label="Đồ thị hàm số trên hệ trục tọa độ"></canvas>
+          <div id="canvas-tooltip" class="canvas-tooltip" hidden></div>
+        </div>
+        <div id="status" class="status" role="status">Đồ thị đã sẵn sàng.</div>
+        <div class="graph-footer">
+          <div class="legend"><span class="legend-line"></span><span>y = f(x)</span></div>
+          <span id="range-label">x: −10 đến 10 · y: −10 đến 10</span>
+        </div>
+      </section>
+    </section>
+
+    <section class="tips">
+      <div class="tip-icon">⌘</div><div><b>Mẹo nhập hàm</b><p>Dùng <code>^</code> cho lũy thừa, <code>*</code> cho phép nhân. Hàm lượng giác như <code>sin(x)</code> dùng đơn vị radian.</p></div>
+    </section>
+    <footer>MathGraph <span>•</span> Được xây dựng bằng HTML, CSS và JavaScript <span>•</span> Miễn phí cho học tập</footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
